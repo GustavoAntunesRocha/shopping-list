@@ -27,7 +27,7 @@ public class CartService {
 	}
 
 	public CartDTO getCartById(int id) {
-		return CartDTO.fromEntity(cartRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cart not found with id: " + id)));
+		return CartDTO.fromEntity(cartRepository.findById(id).get());
 	}
 
 	public CartDTO createCart(CartDTO cartDTO) {
@@ -36,7 +36,14 @@ public class CartService {
 	
 	public CartDTO addProduct(ProductDTO productDTO, float productPrice, float quantity, int cartId) throws ResourceNotFoundException {
 		Product product = productService.findById(productDTO.getId()).toEntity();
-		Cart cart = getCartById(cartId).toEntity();
+		Optional<Cart> cartOptional = cartRepository.findById(cartId);
+		Cart cart;
+		if(!cartOptional.isPresent()) {
+			cart = new Cart();
+			cartRepository.save(cart);
+		} else {
+			cart = cartOptional.get();
+		}
 		List<ProductCart> productCartList = cart.getProductCartList();
 		ProductCart productCart = new ProductCart(0, product, quantity, productPrice);
 		productCartList.add(productCart);

@@ -41,9 +41,9 @@ public class CartController {
 		return ResponseEntity.created(location).body(createdCartDTO);
 	}
 
-	@PostMapping("/cart/{cartId}/product")
+	@PostMapping("/product")
 	public ResponseEntity<CartDTO> addProductToCart(@RequestBody ProductDTO productDTO,
-			@RequestParam float productPrice, @RequestParam float quantity, @PathVariable int cartId){
+			@RequestParam float productPrice, @RequestParam float quantity, @RequestParam int cartId){
 		return ResponseEntity.ok(cartService.addProduct(productDTO, productPrice, quantity, cartId));
 	}
 
