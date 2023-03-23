@@ -39,6 +39,7 @@ public class CustomSecurityConfiguration {
 			.authorizeHttpRequests(registry -> registry
 					.requestMatchers("/user/create").permitAll()
 					.requestMatchers("/user/login").permitAll()
+					.requestMatchers("/extractText").permitAll()
 					.anyRequest().authenticated()
 					
 			);
