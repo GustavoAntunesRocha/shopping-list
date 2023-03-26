@@ -1,5 +1,7 @@
 package br.com.antunes.gustavo.shoppinglistapi.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,26 +13,32 @@ import br.com.antunes.gustavo.shoppinglistapi.dto.ProductDTO;
 @Service
 public class VisionService {
 
-	//TODO change the logic to get the correct price when there is multiple prices in the image
 	public ProductCartDTO processImageText(String textFromImage) {
 		String productName = textFromImage.split("\n")[0].strip();
 		String[] texts = textFromImage.split(" ");
-		String price = null;
+		List<Float> price = new ArrayList<>();
+		float maior = 0f;
+		int i = 0;
 		for (String text : texts) {
-			price = getPrice(text);
+			price.add(getPrice(text));
+			// If the text from image has multiple prices get the biggest
+			if(price.get(i) != null && price.get(i) > maior) {
+				maior = price.get(i);
+			}
+			i++;
 		}
 		ProductDTO productDTO = new ProductDTO(0, productName, "");
-		ProductCartDTO productCartDTO = new ProductCartDTO(0, productDTO, 1, Float.parseFloat(price.replace(",", ".")));
+		ProductCartDTO productCartDTO = new ProductCartDTO(0, productDTO, 1, maior);
 		return productCartDTO;
 	}
 
-	private String getPrice(String input) {
-		String output = "";
+	private Float getPrice(String input) {
+		Float output = null;
 
-		Pattern pattern = Pattern.compile("\\d{1,3}[,\\.]?(\\d{1,2})?");
+		Pattern pattern = Pattern.compile("\\d{1,3}[,\\.](\\d{1,2})?");
 		Matcher matcher = pattern.matcher(input);
 		if (matcher.find()) {
-			output = matcher.group(0);
+			output = Float.parseFloat(matcher.group(0).replace(",", "."));
 		}
 
 		return output;
