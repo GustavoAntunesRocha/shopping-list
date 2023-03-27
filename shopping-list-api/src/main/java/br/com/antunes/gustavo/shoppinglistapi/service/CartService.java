@@ -10,6 +10,7 @@ import br.com.antunes.gustavo.shoppinglistapi.dto.ProductDTO;
 import br.com.antunes.gustavo.shoppinglistapi.entity.Cart;
 import br.com.antunes.gustavo.shoppinglistapi.entity.Product;
 import br.com.antunes.gustavo.shoppinglistapi.entity.ProductCart;
+import br.com.antunes.gustavo.shoppinglistapi.exception.CustomException;
 import br.com.antunes.gustavo.shoppinglistapi.exception.ResourceNotFoundException;
 import br.com.antunes.gustavo.shoppinglistapi.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,16 +23,26 @@ public class CartService {
 	
 	private final ProductService productService;
 
-	public List<Cart> getAllCarts() {
-		return cartRepository.findAll();
+	public List<Cart> getAllCarts() throws ResourceNotFoundException{
+	    List<Cart> allCarts = cartRepository.findAll();
+	    if (allCarts.isEmpty()) {
+	        throw new ResourceNotFoundException("No cart was found");
+	    } else {
+	        return allCarts;
+	    }
 	}
 
-	public CartDTO getCartById(int id) {
-		return CartDTO.fromEntity(cartRepository.findById(id).get());
+
+	public CartDTO getCartById(int id) throws ResourceNotFoundException{
+		return CartDTO.fromEntity(cartRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cart not found with the id: " + id)));
 	}
 
-	public CartDTO createCart(CartDTO cartDTO) {
-		return CartDTO.fromEntity(cartRepository.save(cartDTO.toEntity()));
+	public CartDTO createCart(CartDTO cartDTO) throws CustomException{
+		try {
+			return CartDTO.fromEntity(cartRepository.save(cartDTO.toEntity()));
+		} catch (IllegalArgumentException e) {
+			throw new CustomException("The given CartDTO entity must not be null!");
+		}
 	}
 	
 	public CartDTO addProduct(ProductDTO productDTO, float productPrice, float quantity, int cartId) throws ResourceNotFoundException {
@@ -51,7 +62,7 @@ public class CartService {
 		return CartDTO.fromEntity(cart);
 	}
 
-	public CartDTO updateCart(CartDTO cartDTO) {
+	public CartDTO updateCart(CartDTO cartDTO) throws ResourceNotFoundException{
 		Optional<Cart> optionalCart = cartRepository.findById(cartDTO.getId());
 		if (optionalCart.isPresent()) {
 			Cart existingCart = optionalCart.get();
@@ -64,7 +75,7 @@ public class CartService {
 		}
 	}
 
-	public void deleteCart(int id) {
+	public void deleteCart(int id) throws ResourceNotFoundException{
 		Optional<Cart> cart = cartRepository.findById(id);
 		if (cart.isPresent()) {
 			cartRepository.deleteById(id);
