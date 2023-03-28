@@ -39,7 +39,8 @@ public class CustomSecurityConfiguration {
 			.authorizeHttpRequests(registry -> registry
 					.requestMatchers("/user/create").permitAll()
 					.requestMatchers("/user/login").permitAll()
-					.requestMatchers("/extractText").permitAll()
+					.requestMatchers("/swagger-ui/**").permitAll()
+					.requestMatchers("/v3/**").permitAll()
 					.anyRequest().authenticated()
 					
 			);
