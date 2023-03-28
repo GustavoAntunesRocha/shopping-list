@@ -28,7 +28,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @Controller
-@RequestMapping("/product")
+@RequestMapping("/api/product")
 public class ProductController {
 	
 	private final ProductService productService;

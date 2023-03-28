@@ -20,7 +20,7 @@ public class VisionController {
   
   @Autowired private VisionService visionService;
 
-  @GetMapping("/extractText")
+  @GetMapping("/api/extractText")
   public ResponseEntity<ProductCartDTO> extractText(@RequestParam String imageUrl) {
     String textFromImage =
         this.cloudVisionTemplate.extractTextFromImage(this.resourceLoader.getResource(imageUrl));
