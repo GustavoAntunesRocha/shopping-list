@@ -29,17 +29,20 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/user")
-@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
     
-    @Operation(description = "Endpoint for user authentication and to obtain an access token", responses = {
+    public UserController(UserService userService, ModelMapper modelMapper) {
+		this.userService = userService;
+		this.modelMapper = modelMapper;
+	}
+
+	@Operation(description = "Endpoint for user authentication and to obtain an access token", responses = {
 			@ApiResponse(responseCode = "200", description = "Successfully authenticated and received an access token", 
 				content = @Content(mediaType = "application/json", schema = @Schema(implementation = LoginResponse.class))),
 			@ApiResponse(responseCode = "400", description = "Invalid login request or missing request parameters",

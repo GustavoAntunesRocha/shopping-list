@@ -18,13 +18,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.google.cloud.vision.v1.ImageAnnotatorClient;
 
 import br.com.antunes.gustavo.shoppinglistapi.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 
 @Configuration
-@RequiredArgsConstructor
 public class AppConfig {
 	
 	private final UserRepository userRepository;
+
+	public AppConfig(UserRepository userRepository) {
+		super();
+		this.userRepository = userRepository;
+	}
 
 	@Bean
 	public ModelMapper modelMapper() {

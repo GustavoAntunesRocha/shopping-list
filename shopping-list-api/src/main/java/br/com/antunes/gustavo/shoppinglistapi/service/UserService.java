@@ -22,10 +22,8 @@ import br.com.antunes.gustavo.shoppinglistapi.entity.UserEntity;
 import br.com.antunes.gustavo.shoppinglistapi.exception.CustomException;
 import br.com.antunes.gustavo.shoppinglistapi.repository.UserRepository;
 import br.com.antunes.gustavo.shoppinglistapi.security.JwtService;
-import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
@@ -35,14 +33,23 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     
+	public UserService(UserRepository userRepository, ModelMapper modelMapper, ObjectMapper objectMapper,
+			BCryptPasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtService jwtService) {
+		super();
+		this.userRepository = userRepository;
+		this.modelMapper = modelMapper;
+		this.objectMapper = objectMapper;
+		this.passwordEncoder = passwordEncoder;
+		this.authenticationManager = authenticationManager;
+		this.jwtService = jwtService;
+	}
+
 	public LoginResponse authenticate(LoginRequest request) throws CustomException{
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 			var user = userRepository.findByEmail(request.getEmail());
 			var jwt = jwtService.generateToken(user);
-			return LoginResponse.builder()
-					.accesToken(jwt)
-					.build();
+			return new LoginResponse(jwt);
 		} catch (AuthenticationException e) {
 			throw new CustomException("Bad credentials");
 		}

@@ -1,23 +1,25 @@
 package br.com.antunes.gustavo.shoppinglistapi.dto;
 
 import br.com.antunes.gustavo.shoppinglistapi.entity.ProductCart;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class ProductCartDTO {
 
     private int id;
     private ProductDTO product;
     private float quantities;
     private float productPrice;
+    
+    public ProductCartDTO() {}
 
-    public static ProductCartDTO fromEntity(ProductCart productCart) {
+    public ProductCartDTO(int id, ProductDTO product, float quantities, float productPrice) {
+		super();
+		this.id = id;
+		this.product = product;
+		this.quantities = quantities;
+		this.productPrice = productPrice;
+	}
+
+	public static ProductCartDTO fromEntity(ProductCart productCart) {
         return new ProductCartDTO(
                 productCart.getId(),
                 ProductDTO.fromEntity(productCart.getProduct()),
@@ -34,5 +36,37 @@ public class ProductCartDTO {
                 this.productPrice
         );
     }
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public ProductDTO getProduct() {
+		return product;
+	}
+
+	public void setProduct(ProductDTO product) {
+		this.product = product;
+	}
+
+	public float getQuantities() {
+		return quantities;
+	}
+
+	public void setQuantities(float quantities) {
+		this.quantities = quantities;
+	}
+
+	public float getProductPrice() {
+		return productPrice;
+	}
+
+	public void setProductPrice(float productPrice) {
+		this.productPrice = productPrice;
+	}
 
 }

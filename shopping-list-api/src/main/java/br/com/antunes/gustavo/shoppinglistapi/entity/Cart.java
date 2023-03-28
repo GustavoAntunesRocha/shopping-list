@@ -11,18 +11,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class Cart {
 
 	@Id
@@ -36,4 +26,46 @@ public class Cart {
 	private float price;
 	
 	private Date date;
+	
+	public Cart() {}
+
+	public Cart(int id, List<ProductCart> productCartList, float price, Date date) {
+		super();
+		this.id = id;
+		this.productCartList = productCartList;
+		this.price = price;
+		this.date = date;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public List<ProductCart> getProductCartList() {
+		return productCartList;
+	}
+
+	public void setProductCartList(List<ProductCart> productCartList) {
+		this.productCartList = productCartList;
+	}
+
+	public float getPrice() {
+		return price;
+	}
+
+	public void setPrice(float price) {
+		this.price = price;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
 }

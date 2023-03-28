@@ -13,15 +13,20 @@ import br.com.antunes.gustavo.shoppinglistapi.entity.ProductCart;
 import br.com.antunes.gustavo.shoppinglistapi.exception.CustomException;
 import br.com.antunes.gustavo.shoppinglistapi.exception.ResourceNotFoundException;
 import br.com.antunes.gustavo.shoppinglistapi.repository.CartRepository;
-import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
 public class CartService {
 
 	private final CartRepository cartRepository;
 	
 	private final ProductService productService;
+
+	public CartService(CartRepository cartRepository, ProductService productService) {
+		super();
+		this.cartRepository = cartRepository;
+		this.productService = productService;
+	}
+
 
 	public List<Cart> getAllCarts() throws ResourceNotFoundException{
 	    List<Cart> allCarts = cartRepository.findAll();

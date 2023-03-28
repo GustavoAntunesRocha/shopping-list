@@ -10,13 +10,16 @@ import br.com.antunes.gustavo.shoppinglistapi.entity.Product;
 import br.com.antunes.gustavo.shoppinglistapi.exception.CustomException;
 import br.com.antunes.gustavo.shoppinglistapi.exception.ResourceNotFoundException;
 import br.com.antunes.gustavo.shoppinglistapi.repository.ProductRepository;
-import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
 public class ProductService {
 	
 	private final ProductRepository productRepository;
+
+	public ProductService(ProductRepository productRepository) {
+		super();
+		this.productRepository = productRepository;
+	}
 
 	public List<ProductDTO> findAll() throws ResourceNotFoundException{
 		List<ProductDTO> productDTOlist = new ArrayList<>();

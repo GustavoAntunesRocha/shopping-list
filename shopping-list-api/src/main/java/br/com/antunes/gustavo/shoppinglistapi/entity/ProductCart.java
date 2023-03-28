@@ -5,18 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class ProductCart {
 	
 	@Id
@@ -29,5 +19,47 @@ public class ProductCart {
 	private float quantities;
 	
 	private float productPrice;
+	
+	public ProductCart() {}
+
+	public ProductCart(int id, Product product, float quantities, float productPrice) {
+		super();
+		this.id = id;
+		this.product = product;
+		this.quantities = quantities;
+		this.productPrice = productPrice;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public float getQuantities() {
+		return quantities;
+	}
+
+	public void setQuantities(float quantities) {
+		this.quantities = quantities;
+	}
+
+	public float getProductPrice() {
+		return productPrice;
+	}
+
+	public void setProductPrice(float productPrice) {
+		this.productPrice = productPrice;
+	}
 
 }

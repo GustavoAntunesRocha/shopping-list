@@ -3,11 +3,7 @@ package br.com.antunes.gustavo.shoppinglistapi.dto;
 import br.com.antunes.gustavo.shoppinglistapi.entity.Role;
 import br.com.antunes.gustavo.shoppinglistapi.entity.UserEntity;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 public class UserDTO {
 
     private int id;
@@ -29,5 +25,29 @@ public class UserDTO {
     public static UserDTO fromUser(UserEntity user) {
         return new UserDTO(user.getId(), user.getEmail(), user.getRole());
     }
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
 
 }

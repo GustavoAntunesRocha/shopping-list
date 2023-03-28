@@ -1,8 +1,5 @@
 package br.com.antunes.gustavo.shoppinglistapi.controller;
 
-import lombok.Builder;
-
-@Builder
 public class LoginResponse {
 
 	private String accesToken;
