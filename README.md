@@ -1,4 +1,8 @@
 <br>
+<p align="center">
+  <a href="" rel="noopener">
+ <img src="https://user-images.githubusercontent.com/31359489/228345878-7616f0e0-a93c-40d5-9003-0ba66c70d8a6.gif" alt="Project logo"></a>
+</p>
 
 <h3 align="center">Shopping List with Cloud Vision</h3>
 
