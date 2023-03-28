@@ -48,8 +48,12 @@ public class UserController {
 				content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)))
 	})
 	@PostMapping("/login")
-	public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
-		return ResponseEntity.ok(userService.authenticate(request));
+	public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+		try {
+			return ResponseEntity.ok(userService.authenticate(request));
+		} catch (CustomException e) {
+			return new ResponseEntity<>(handleCustomException(e, HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+		}
 	}
 
     @PostMapping("/create")

@@ -35,7 +35,7 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     
-	public LoginResponse authenticate(LoginRequest request) {
+	public LoginResponse authenticate(LoginRequest request) throws CustomException{
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 			var user = userRepository.findByEmail(request.getEmail());
@@ -44,9 +44,7 @@ public class UserService {
 					.accesToken(jwt)
 					.build();
 		} catch (AuthenticationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
+			throw new CustomException("Bad credentials");
 		}
 	}
 

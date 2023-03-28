@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.antunes.gustavo.shoppinglistapi.dto.ProductDTO;
 import br.com.antunes.gustavo.shoppinglistapi.entity.Product;
+import br.com.antunes.gustavo.shoppinglistapi.exception.CustomException;
 import br.com.antunes.gustavo.shoppinglistapi.exception.ResourceNotFoundException;
 import br.com.antunes.gustavo.shoppinglistapi.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +18,12 @@ public class ProductService {
 	
 	private final ProductRepository productRepository;
 
-	public List<ProductDTO> findAll() {
+	public List<ProductDTO> findAll() throws ResourceNotFoundException{
 		List<ProductDTO> productDTOlist = new ArrayList<>();
 		List<Product> productList = productRepository.findAll();
+		if(productList.isEmpty()) {
+			throw new ResourceNotFoundException("No product was found");
+		}
 		for (Product product : productList) {
 			productDTOlist.add(ProductDTO.fromEntity(product));
 		}
@@ -43,11 +47,14 @@ public class ProductService {
 		return productDTOList;
 	}
 
-	public ProductDTO create(ProductDTO productDTO) {
+	public ProductDTO create(ProductDTO productDTO) throws CustomException{
+		if(productDTO == null) {
+			throw new CustomException("ProductDTO must not be null!");
+		}
 	    return ProductDTO.fromEntity(productRepository.save(productDTO.toEntity()));
 	}
 	
-	public ProductDTO update(ProductDTO productDTO) {
+	public ProductDTO update(ProductDTO productDTO) throws ResourceNotFoundException{
 		Product product = productRepository.findById(productDTO.getId())
 				.orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + productDTO.getId()));
 		product.setDescription(productDTO.getDescription());
@@ -56,8 +63,9 @@ public class ProductService {
 		return ProductDTO.fromEntity(product);
 	}
 
-	public void deleteById(int id) {
-	    productRepository.deleteById(id);
+	public void deleteById(int id) throws ResourceNotFoundException{
+		Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found with the id: " + id));
+	    productRepository.delete(product);
 	}
 
 

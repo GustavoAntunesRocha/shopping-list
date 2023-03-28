@@ -88,7 +88,7 @@ public class CartController {
 	}
 
 	@Operation(description = "Endpoint for updating an cart", responses = {
-			@ApiResponse(responseCode = "200", description = "Successfully retrieved the cart entity", 
+			@ApiResponse(responseCode = "200", description = "Successfully updated the cart entity", 
 				content = @Content(mediaType = "application/json", schema = @Schema(implementation = CartDTO.class))),
 			@ApiResponse(responseCode = "404", description = "No entity found",
 				content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)))
@@ -103,7 +103,7 @@ public class CartController {
 		}
 	}
 
-	@Operation(description = "Endpoint fo deleting a cart object", responses = {
+	@Operation(description = "Endpoint for deleting a cart object", responses = {
 			@ApiResponse(responseCode = "200", description = "Successfully deleted the cart!", content = @Content(mediaType = "application/json")) })
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteCart(@PathVariable int id) {
