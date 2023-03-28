@@ -37,8 +37,8 @@ public class CustomSecurityConfiguration {
 			.formLogin().disable()
 			.securityMatcher("/**")
 			.authorizeHttpRequests(registry -> registry
-					.requestMatchers("/user/create").permitAll()
-					.requestMatchers("/user/login").permitAll()
+					.requestMatchers("/api/user/create").permitAll()
+					.requestMatchers("/api/user/login").permitAll()
 					.requestMatchers("/swagger-ui/**").permitAll()
 					.requestMatchers("/v3/**").permitAll()
 					.anyRequest().authenticated()
